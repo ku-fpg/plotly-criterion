@@ -48,10 +48,19 @@ main2 dps = do
               ys  :: [Double]
               ys  = [ mean dp  | dp <- dat ]
               
+              ub_er = [ meanUB dp - mean dp  | dp <- dat ]
+              lb_er = [ mean dp - meanLB dp  | dp <- dat ]
+              
           in object 
                 [ "name" .= label
                 , "x" .= xs
                 , "y" .= ys
+                , "error_y" .= object
+                  [ "type"      .= ("data" :: String)
+                  , "symmetric" .= False
+                  , "array"      .= ub_er
+                  , "arrayminus" .= lb_er
+                  ]
                 , "mode" .= ("scatter" :: Text)
                 ]
 {-        
